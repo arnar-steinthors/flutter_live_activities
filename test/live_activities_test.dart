@@ -2,14 +2,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:live_activities/live_activities.dart';
 import 'package:live_activities/live_activities_platform_interface.dart';
 import 'package:live_activities/live_activities_method_channel.dart';
+import 'package:live_activities/models/activity_content.dart';
 import 'package:live_activities/models/activity_update.dart';
 import 'package:live_activities/models/live_activity_state.dart';
 import 'package:live_activities/models/url_scheme_data.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-class MockLiveActivitiesPlatform
-    with MockPlatformInterfaceMixin
-    implements LiveActivitiesPlatform {
+class MockLiveActivitiesPlatform with MockPlatformInterfaceMixin implements LiveActivitiesPlatform {
   @override
   Future init(String appGroupId) {
     return Future.value();
@@ -80,11 +79,20 @@ class MockLiveActivitiesPlatform
     };
     return Stream.value(ActivityUpdate.fromMap(map));
   }
+
+  @override
+  Stream<ActivityContent> get activityContentStream {
+    final map = <String, dynamic>{
+      'activityId': 'ACTIVITY_ID',
+      'field_1': 'one',
+      'field_2': 'two',
+    };
+    return Stream.value(ActivityContent.fromMap(map));
+  }
 }
 
 void main() {
-  final LiveActivitiesPlatform initialPlatform =
-      LiveActivitiesPlatform.instance;
+  final LiveActivitiesPlatform initialPlatform = LiveActivitiesPlatform.instance;
   LiveActivities liveActivitiesPlugin = LiveActivities();
   MockLiveActivitiesPlatform fakePlatform = MockLiveActivitiesPlatform();
   LiveActivitiesPlatform.instance = fakePlatform;
@@ -153,5 +161,18 @@ void main() {
       ),
       'ACTIVITY_TOKEN',
     );
+  });
+
+  test('activityContentStream', () async {
+    final result = await liveActivitiesPlugin.activityContentStream.first;
+    expect(result.activityId, 'ACTIVITY_ID');
+    expect(
+      result.contentState,
+      <String, dynamic>{
+        'field_1': 'one',
+        'field_2': 'two',
+      },
+    );
+    expect(result.contentState.length, 2);
   });
 }

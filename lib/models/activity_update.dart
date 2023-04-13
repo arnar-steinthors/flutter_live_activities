@@ -12,23 +12,22 @@ abstract class ActivityUpdate {
     final activityId = map['activityId'] as String;
     switch (status) {
       case LiveActivityState.active:
-        return _ActiveActivityUpdate(
-            activityId: activityId, activityToken: map['token'] as String);
+        return ActiveActivityUpdate._(activityId: activityId, activityToken: map['token'] as String);
       case LiveActivityState.ended:
       case LiveActivityState.dismissed:
-        return _EndedActivityUpdate(activityId: activityId);
+        return EndedActivityUpdate._(activityId: activityId);
       case LiveActivityState.stale:
-        return _StaleActivityUpdate(activityId: activityId);
+        return StaleActivityUpdate._(activityId: activityId);
       case LiveActivityState.unknown:
-        return _UnknownActivityUpdate(activityId: activityId);
+        return UnknownActivityUpdate._(activityId: activityId);
     }
   }
 
   TResult map<TResult extends Object?>({
-    required TResult Function(_ActiveActivityUpdate value) active,
-    required TResult Function(_EndedActivityUpdate value) ended,
-    required TResult Function(_StaleActivityUpdate value) stale,
-    required TResult Function(_UnknownActivityUpdate value) unknown,
+    required TResult Function(ActiveActivityUpdate value) active,
+    required TResult Function(EndedActivityUpdate value) ended,
+    required TResult Function(StaleActivityUpdate value) stale,
+    required TResult Function(UnknownActivityUpdate value) unknown,
   });
 
   @override
@@ -37,18 +36,17 @@ abstract class ActivityUpdate {
   }
 }
 
-class _ActiveActivityUpdate extends ActivityUpdate {
-  _ActiveActivityUpdate(
-      {required super.activityId, required this.activityToken});
+class ActiveActivityUpdate extends ActivityUpdate {
+  ActiveActivityUpdate._({required super.activityId, required this.activityToken});
 
   final String activityToken;
 
   @override
   map<TResult extends Object?>({
-    required TResult Function(_ActiveActivityUpdate value) active,
-    required TResult Function(_EndedActivityUpdate value) ended,
-    required TResult Function(_StaleActivityUpdate value) stale,
-    required TResult Function(_UnknownActivityUpdate value) unknown,
+    required TResult Function(ActiveActivityUpdate value) active,
+    required TResult Function(EndedActivityUpdate value) ended,
+    required TResult Function(StaleActivityUpdate value) stale,
+    required TResult Function(UnknownActivityUpdate value) unknown,
   }) {
     return active(this);
   }
@@ -59,43 +57,43 @@ class _ActiveActivityUpdate extends ActivityUpdate {
   }
 }
 
-class _EndedActivityUpdate extends ActivityUpdate {
-  _EndedActivityUpdate({required super.activityId});
+class EndedActivityUpdate extends ActivityUpdate {
+  EndedActivityUpdate._({required super.activityId});
 
   @override
   map<TResult extends Object?>({
-    required TResult Function(_ActiveActivityUpdate value) active,
-    required TResult Function(_EndedActivityUpdate value) ended,
-    required TResult Function(_StaleActivityUpdate value) stale,
-    required TResult Function(_UnknownActivityUpdate value) unknown,
+    required TResult Function(ActiveActivityUpdate value) active,
+    required TResult Function(EndedActivityUpdate value) ended,
+    required TResult Function(StaleActivityUpdate value) stale,
+    required TResult Function(UnknownActivityUpdate value) unknown,
   }) {
     return ended(this);
   }
 }
 
-class _StaleActivityUpdate extends ActivityUpdate {
-  _StaleActivityUpdate({required super.activityId});
+class StaleActivityUpdate extends ActivityUpdate {
+  StaleActivityUpdate._({required super.activityId});
 
   @override
   map<TResult extends Object?>({
-    required TResult Function(_ActiveActivityUpdate value) active,
-    required TResult Function(_EndedActivityUpdate value) ended,
-    required TResult Function(_StaleActivityUpdate value) stale,
-    required TResult Function(_UnknownActivityUpdate value) unknown,
+    required TResult Function(ActiveActivityUpdate value) active,
+    required TResult Function(EndedActivityUpdate value) ended,
+    required TResult Function(StaleActivityUpdate value) stale,
+    required TResult Function(UnknownActivityUpdate value) unknown,
   }) {
     return stale(this);
   }
 }
 
-class _UnknownActivityUpdate extends ActivityUpdate {
-  _UnknownActivityUpdate({required super.activityId});
+class UnknownActivityUpdate extends ActivityUpdate {
+  UnknownActivityUpdate._({required super.activityId});
 
   @override
   map<TResult extends Object?>({
-    required TResult Function(_ActiveActivityUpdate value) active,
-    required TResult Function(_EndedActivityUpdate value) ended,
-    required TResult Function(_StaleActivityUpdate value) stale,
-    required TResult Function(_UnknownActivityUpdate value) unknown,
+    required TResult Function(ActiveActivityUpdate value) active,
+    required TResult Function(EndedActivityUpdate value) ended,
+    required TResult Function(StaleActivityUpdate value) stale,
+    required TResult Function(UnknownActivityUpdate value) unknown,
   }) {
     return unknown(this);
   }

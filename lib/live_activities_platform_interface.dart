@@ -1,3 +1,4 @@
+import 'package:live_activities/models/activity_content.dart';
 import 'package:live_activities/models/activity_update.dart';
 import 'package:live_activities/models/live_activity_state.dart';
 import 'package:live_activities/models/url_scheme_data.dart';
@@ -54,8 +55,7 @@ abstract class LiveActivitiesPlatform extends PlatformInterface {
   }
 
   Future<bool> areActivitiesEnabled() {
-    throw UnimplementedError(
-        'areActivitiesEnabled() has not been implemented.');
+    throw UnimplementedError('areActivitiesEnabled() has not been implemented.');
   }
 
   Stream<UrlSchemeData> urlSchemeStream() {
@@ -72,4 +72,7 @@ abstract class LiveActivitiesPlatform extends PlatformInterface {
 
   Stream<ActivityUpdate> get activityUpdateStream =>
       throw UnimplementedError('pushTokenUpdates has not been implemented');
+
+  Stream<ActivityContent> get activityContentStream =>
+      throw UnimplementedError('activityContentStream has not been implemented');
 }

@@ -1,3 +1,4 @@
+import 'package:live_activities/models/activity_content.dart';
 import 'package:live_activities/models/activity_update.dart';
 import 'package:live_activities/models/live_activity_state.dart';
 import 'package:live_activities/models/url_scheme_data.dart';
@@ -91,7 +92,24 @@ class LiveActivities {
     }
   }
 
-  /// Get a stream of activity updates.
-  Stream<ActivityUpdate> get activityUpdateStream =>
-      LiveActivitiesPlatform.instance.activityUpdateStream;
+  /// A stream of activity updates.
+  /// An event is emitted onto this stream each time a pushTokenUpdate occurs. The operating system can decide
+  /// to update a push token at any time, or the activity ended
+  ///
+  /// You can map out each type of update to respond to it
+  ///
+  /// ```dart
+  /// activityUpdateStream.listen((event) => event.map(
+  ///   active: (state) { ... },
+  ///   ended: (state) { ... },
+  ///   stale: (state) { ... },
+  ///   unknown: (state) { ... },
+  /// ))
+  /// ```
+  Stream<ActivityUpdate> get activityUpdateStream => LiveActivitiesPlatform.instance.activityUpdateStream;
+
+  /// A stream of contentState updates
+  /// Can be listened to to react to contentState updates that come from ActivityKit push notifications on
+  /// the flutter side
+  Stream<ActivityContent> get activityContentStream => LiveActivitiesPlatform.instance.activityContentStream;
 }
